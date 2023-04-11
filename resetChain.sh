@@ -1,7 +1,5 @@
 #!/bin/zsh
-rm ./blk/*blk
-rm chain
-rm currentblock.dat
+rm -f ./blk/*.blk
+rm -f chain
 echo "Genesis Block the unmoved mover" > chain
-echo "0" > currentblock.dat
 

@@ -22,7 +22,7 @@ def extract_difficulty(block_contents):
 
 
 def extract_prior_block_info(block_content: str, is_first_block: bool) -> Tuple[str, str]:
-    prior_block_hash_re = re.compile('<priorBlockHash><hash>([a-zA-Z0-9]+)</hash><file>(.*)<file/></priorBlockHash>')
+    prior_block_hash_re = re.compile('<priorBlockHash>\s*<hash>([a-zA-Z0-9]+)</hash>\s*<file>(.*)<file/>\s*</priorBlockHash>')
     
     match = prior_block_hash_re.search(block_content)
 

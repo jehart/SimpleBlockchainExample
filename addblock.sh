@@ -3,7 +3,7 @@
 
 
 # Read the number from the file
-number=$(cat currentblock.dat)
+number=$(ls -1 ./blk | wc -l | tr -d '\ ')
 
 # Print the number
 echo "Adding Block: $number"
@@ -22,17 +22,26 @@ fi
 filename=$TMPFILE:t
 
 # add the prior block hash to the new proposed blcok
-echo -n "<block><number>" >> $TMPFILE
+echo -n "<block>\n<number>" >> $TMPFILE
 echo -n $number >> $TMPFILE
-echo -n "</number>\n<priorBlockHash><hash>" >> $TMPFILE
+echo -n "</number>\n" >> $TMPFILE
+
+# add the timestamp to the proposed block file
+echo -n "<timestamp>" >> $TMPFILE
+date +%s | tr -d '\n'>> $TMPFILE
+echo -n "</timestamp>\n" >> $TMPFILE
+
+# add the prior block hash to the proposed block file
+echo -n "<priorBlockHash>\n<hash>" >> $TMPFILE
 tail -n1 chain | cut -d ' ' -f 1|tr -d '\n' >> $TMPFILE
-echo -n "</hash><file>" >> $TMPFILE
+echo -n "</hash>\n<file>" >> $TMPFILE
 tail -n1 chain | cut -d ' ' -f 3|tr -d '\n' >> $TMPFILE
-echo "<file/></priorBlockHash>" >> $TMPFILE
+echo "<file/>\n</priorBlockHash>" >> $TMPFILE
+
 # add the sha256 sum of the contents to the proposed block file
 echo -n "<contentHash>" >> $TMPFILE
 shasum -a 256 $1 | cut -d ' ' -f1 |tr -d '\n' >> $TMPFILE
-echo "</contentHash>\n</block>\n" >> $TMPFILE
+echo -n "</contentHash>\n</block>\n" >> $TMPFILE
 
 # add the contents of the file to the proposed block file
 # to improve performance, we will not add the contents of the file
@@ -42,15 +51,8 @@ echo "</contentHash>\n</block>\n" >> $TMPFILE
 
 
 # Mine the block and output to the block directory
-echo ./simpleMiner -i $TMPFILE -f $difficulty -o ./blk/$number
+echo ./simpleMiner -i $TMPFILE -f $difficulty -o ./blk/$number.blk
 ./simpleMiner -i $TMPFILE -f $difficulty -o ./blk/$number.blk
 
 #Add the block to the chain
 shasum -a 256 ./blk/$number.blk >> chain
-
-
-# Increment the number
-number=$((number + 1))
-
-# Write the new number back to the file
-echo $number > currentblock.dat

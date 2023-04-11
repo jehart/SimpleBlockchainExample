@@ -1,6 +1,14 @@
 # Simple Miner 
 
-This is a learning tool to demonstrate the operation of a _very simple and broken_ blockchain
+This is a learning tool to demonstrate the operation of a _very simple and broken_ blockchain. The blockchain implementation uses a proof-of-work mechanism to secure and add new blocks to the chain. The implementation includes a simple miner that can be used to mine blocks and a script to format and add them to the blockchain.
+
+The blockchain is made up of a chain of blocks, with each block containing information about its contents and the block that came before it. The block structure includes the block number, a timestamp, a hash of the prior block's content, a hash of the block's content, and information about the block's mining process (including the difficulty and nonce).
+
+The project includes a shell script that can be used to add blocks to the chain. The script determines the next block number, creates a new block file, mines the block using the simple miner, adds the block to the chain.
+
+The implementation also includes command-line flags that can be used to specify the input file, the current search difficulty, the output file, and the output directory. These flags provide flexibility and allow the miner to be used in a variety of settings.
+
+Overall, this project provides a basic implementation of a blockchain and a simple miner that can be used to add new blocks to the chain. It can be used as a starting point for developing more complex blockchain applications or as a learning resource for those who want to better understand how blockchains work.
 
 # TL;DR
 Just try it out:
@@ -78,4 +86,29 @@ To validate the blockcahin run:
 ```
 There are many improvements that can and probably should be made. Like not relying on the chain file and instead walking the .blk files directly. 
 
+# Other Details
+Each block has the following structure:
+```
+<block>
+<number>1</number>
+<timestamp>1681251059</timestamp>
+<priorBlockHash>
+<hash>000000846ad3774b3555e06ad9c2d6e48e2c089fa25677e4919a55118ef098a4</hash>
+<file>./blk/0.blk<file/>
+</priorBlockHash>
+<contentHash>8ff55c765b44667d40e371c67182108556d101c2fb42fc32b965bde66dda9e9a</contentHash>
+</block>
+<minerData>
+<difficulty>000000FFFFFF0000000000000000000000000000000000000000000000000000</difficulty>
+<nonce>4866307</nonce>
+</minerData>
+```
 
+## Discussion
+- number: The block number, represented as a positive integer.
+- timestamp: The timestamp of the block's creation, represented as a Unix epoch timestamp.
+- priorBlockHash: A hash of the prior block's content, represented as a SHA256 hash. This element also contains the filename of the prior block.
+- contentHash: A hash of the block's content, represented as a SHA256 hash.
+- minerData: Information about the block's mining process. This element includes the difficulty of the current mined block and the nonce that was found to match the difficulty.
+- difficulty: The level of complexity required to solve a the SHA256 hash and add a new block to the blockchain. The difficulty is can be adjusted in the addblock.sh script.
+- nonce: a number that is included in a block's data that can be varied in order to create a hash that meets a specific difficulty level
