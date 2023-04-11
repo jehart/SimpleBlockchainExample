@@ -2,6 +2,17 @@
 
 This is a learning tool to demonstrate the operation of a _very simple and broken_ blockchain
 
+# TL;DR
+Just try it out:
+```
+    ./resetChain.sh
+    ./addblock.sh ./content/1
+    ./addblock.sh ./content/2
+    ./addblock.sh ./content/3
+    ./addblock.sh ./content/4
+    ./addblock.sh ./content/5
+    python3 ./verify_blocks.py
+```
 # simpleMiner
 
 ## Description
@@ -17,6 +28,13 @@ The code does the following:
 6. If a match is found, it stops and writes the modified file contents to the output file or output directory. Otherwise, it continues incrementing the nonce.
 7. Periodically displays the hash rate and the nonce it's currently checking.
 
+A simple way to run the simpleMiner is to invoke it directly and view the output in the terminal:
+
+```    
+    ./simpleMiner -i 0 -f 0000000AFFFF0000000000000000000000000000000000000000000000000000 -o -
+```
+
+
 ## Building
 
 To build simpleMiner 
@@ -24,7 +42,7 @@ To build simpleMiner
     go build simpleMiner.go
 ```
 
-# addblock.sh
+# Adding a block and growing the blockchain
 Addblock.sh is a shell script that mines a new block using the compiled "simpleMiner" program from the previous Go code. The script operates as follows:
 
 1. Sets a target difficulty for the Proof of Work algorithm.
@@ -34,12 +52,22 @@ Addblock.sh is a shell script that mines a new block using the compiled "simpleM
 5. Invokes the "simpleMiner" program to perform the mining process, using the temporary file as input, the target difficulty, and an output file in the "blk" directory with the same name as the temporary file and a ".blk" extension.
 6. After the "simpleMiner" program successfully mines the block, the script calculates the SHA-256 hash of the mined block and appends it to the "chain" file.
 
-# resetChain.sh
+Creating and adding a block to a the simple blockchain is as easy as:
+```
+    ./addblock.sh ./content/0
+```
+
+# Resetting and Initializing the Blockchain
 The resetChain.sh script is a simple shell script to reset the blockchain state. It performs the following tasks:
 
 Removes all the ".blk" files from the "blk" directory. These files represent the mined blocks.
 Deletes the "chain" file, which stores the hashes of the mined blocks.
 Creates a new "chain" file with an initial entry, "Genesis Block the unmoved mover", representing the genesis block or the first block of the blockchain.
+
+To initialize of reset the blockchain from the distribution folder run:
+```
+    ./resetChain.sh
+```
 
 # Verifying the Blocks
 The distribution contains a Python program that perfroms a simple blockchain validation. It reads the chain file line by line, verifies each block in the chain, and outputs whether each block is valid or invalid. If any block is invalid, the program prints an error message and terminates. If all blocks in the chain are valid, the program completes successfully.
@@ -51,14 +79,3 @@ To validate the blockcahin run:
 There are many improvements that can and probably should be made. Like not relying on the chain file and instead walking the .blk files directly. 
 
 
-# Example 
-
-A simple way to run the simpleMiner is to invoke it directly and view the output in the terminal:
-
-```    
-    ./simpleMiner -i 0 -f 0000000AFFFF0000000000000000000000000000000000000000000000000000 -o -
-```
-Creating and adding a block to a the simple blockchain is as easy as 
-```
-    ./addblock.sh ./content/0
-```
