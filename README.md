@@ -5,7 +5,9 @@ This is a learning tool to demonstrate the operation of a _very simple and broke
 # Building
 
 To build simpleMiner 
+```
     go build simpleMiner.go
+```
 
 # Example 
 
@@ -13,5 +15,4 @@ A simple way to run the simpleMiner is to invoke it directly and view the output
 
 ```    
     ./simpleMiner -i 0 -f 0000000AFFFF0000000000000000000000000000000000000000000000000000 -o -
-
 ```
