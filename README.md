@@ -3,6 +3,7 @@
 This is a learning tool to demonstrate the operation of a _very simple and broken_ blockchain
 
 # simpleMiner
+
 ## Description
 SimpleMiner is a command-line utility written in Go, which performs a simple Proof of Work (PoW) algorithm on an input file. The user provides the input file, a target difficulty, and optionally, an output file and output directory. The program reads the contents of the input file, concatenates the nonce and the difficulty to the file contents, and calculates the SHA-256 hash of the modified file contents. It then increments the nonce until the hash value is less than or equal to the given difficulty. Once it finds a matching nonce, it writes the modified file contents with the nonce to the specified output file or output directory.
 
