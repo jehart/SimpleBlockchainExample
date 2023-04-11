@@ -59,14 +59,12 @@ def verify_block(block_path: str, previous_hash: str, is_first_block: bool) -> T
 
 if __name__ == "__main__":
     previous_hash=""
-    with open('chain', 'r') as f:
-        chain_lines = f.readlines()
-
-    for i, line in enumerate(chain_lines[1:]):
-        block_hash = chain_lines[i].split()[0]
-        block_path = line.split()[1]
-
-        is_first_block = i == 0
+    block_dir = "./blk"
+    block_files = os.listdir(block_dir)
+    block_files.sort(key=lambda f: int(f.split(".")[0]))
+    for block_file in block_files:
+        block_path = os.path.join(block_dir, block_file)
+        is_first_block = block_file == "0.blk"
         print("verifying block: ", block_path)
         is_valid, previous_hash, difficulty = verify_block(block_path, previous_hash, is_first_block)
         if not is_valid:
