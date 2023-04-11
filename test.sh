@@ -1,8 +1,4 @@
+#!/bin/zsh
 ./resetChain.sh
-./addblock.sh ./content/0
-./addblock.sh ./content/1
-./addblock.sh ./content/2
-./addblock.sh ./content/3
-./addblock.sh ./content/4
-./addblock.sh ./content/5
+find ./content -type f | xargs -n 1 ./addblock.sh
 python3 ./verify_blocks.py
