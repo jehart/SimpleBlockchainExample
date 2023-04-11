@@ -1,7 +1,15 @@
 #!/bin/zsh
 
+
+
+# Read the number from the file
+number=$(cat currentblock.dat)
+
+# Print the number
+echo "Adding Block: $number"
+
 # Set the target difficulty
-difficulty="0000000FFFFF0000000000000000000000000000000000000000000000000000"
+difficulty="000000FFFFFF0000000000000000000000000000000000000000000000000000"
 
 # Create a temporary file to add to the blockchain
 file=$1:t
@@ -14,21 +22,39 @@ filename=$TMPFILE:t
 
 
 # add the prior block hash to the new proposed blcok
-echo -n "<block>\n<header>\n<PriorBlockHash hash=\"" >> $TMPFILE
-tail -n1 chain | tr -d '\n' >> $TMPFILE
-echo "\"/>" >> $TMPFILE
-echo "</header>" >> $TMPFILE
-echo "<body>" >> $TMPFILE
-# add the contents of the block to the file
-cat $1 >> $TMPFILE 
-echo "</body>\n</block>\n" >> $TMPFILE
+echo -n "<block><number>" >> $TMPFILE
+echo -n $number >> $TMPFILE
+echo -n "</number>\n<priorBlockHash><hash>" >> $TMPFILE
+tail -n1 chain | cut -d ' ' -f 1|tr -d '\n' >> $TMPFILE
+echo -n "</hash><file>" >> $TMPFILE
+tail -n1 chain | cut -d ' ' -f 3|tr -d '\n' >> $TMPFILE
+echo "<file/></priorBlockHash>" >> $TMPFILE
+# add the sha256 sum of the contents to the proposed block file
+echo -n "<contentHash>" >> $TMPFILE
+shasum -a 256 $1 | cut -d ' ' -f1 |tr -d '\n' >> $TMPFILE
+echo "</contentHash>\n</block>\n" >> $TMPFILE
+
+# add the contents of the file to the proposed block file
+# to improve performance, we will not add the contents of the file
+#echo -n "<fileContents>" >> $TMPFILE
+#cat $1 >> $TMPFILE
+#echo "</fileContents>" >> $TMPFILE
+
 
 # Mine the block and output to the block directory
-echo ./hash9 -i $TMPFILE -f $difficulty -o ./blk/$filename
-./simpleMiner -i $TMPFILE -f $difficulty -o ./blk/$filename.blk
+echo ./simpleMiner -i $TMPFILE -f $difficulty -o ./blk/$number
+./simpleMiner -i $TMPFILE -f $difficulty -o ./blk/$number.blk
 
 #Add the block to the chain
-shasum -a 256 ./blk/$filename.blk >> chain
+shasum -a 256 ./blk/$number.blk >> chain
+
+
+# Increment the number
+number=$((number + 1))
+
+# Write the new number back to the file
+echo $number > currentblock.dat
+
 
 #TODO: verify that the sums match 
 # verify the current block chain
