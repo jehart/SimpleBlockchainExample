@@ -24,7 +24,6 @@ To build simpleMiner
     go build simpleMiner.go
 ```
 
-
 # addblock.sh
 Addblock.sh is a shell script that mines a new block using the compiled "simpleMiner" program from the previous Go code. The script operates as follows:
 
@@ -41,6 +40,16 @@ The resetChain.sh script is a simple shell script to reset the blockchain state.
 Removes all the ".blk" files from the "blk" directory. These files represent the mined blocks.
 Deletes the "chain" file, which stores the hashes of the mined blocks.
 Creates a new "chain" file with an initial entry, "Genesis Block the unmoved mover", representing the genesis block or the first block of the blockchain.
+
+# Verifying the Blocks
+The distribution contains a Python program that perfroms a simple blockchain validation. It reads the chain file line by line, verifies each block in the chain, and outputs whether each block is valid or invalid. If any block is invalid, the program prints an error message and terminates. If all blocks in the chain are valid, the program completes successfully.
+
+To validate the blockcahin run:
+```
+    python3 ./verify_blocks.py
+```
+There are many improvements that can and probably should be made. Like not relying on the chain file and instead walking the .blk files directly. 
+
 
 # Example 
 

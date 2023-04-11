@@ -8,7 +8,8 @@ number=$(cat currentblock.dat)
 # Print the number
 echo "Adding Block: $number"
 
-# Set the target difficulty
+# Set the target difficulty for the block 
+# this sets the highest value of the hash
 difficulty="000000FFFFFF0000000000000000000000000000000000000000000000000000"
 
 # Create a temporary file to add to the blockchain
@@ -19,7 +20,6 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 filename=$TMPFILE:t
-
 
 # add the prior block hash to the new proposed blcok
 echo -n "<block><number>" >> $TMPFILE
@@ -54,7 +54,3 @@ number=$((number + 1))
 
 # Write the new number back to the file
 echo $number > currentblock.dat
-
-
-#TODO: verify that the sums match 
-# verify the current block chain
