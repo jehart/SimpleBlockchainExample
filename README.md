@@ -41,3 +41,7 @@ A simple way to run the simpleMiner is to invoke it directly and view the output
 ```    
     ./simpleMiner -i 0 -f 0000000AFFFF0000000000000000000000000000000000000000000000000000 -o -
 ```
+Creating and adding a block to a the simple blockchain is as easy as 
+```
+    ./addblock.sh ./content/0
+```
