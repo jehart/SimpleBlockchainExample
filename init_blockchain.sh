@@ -3,6 +3,7 @@
 #prepare the chain file
 if test -f ./chain; then
   rm -f chain
+  touch chain
 fi
 
 #prepare the blockchain directory
