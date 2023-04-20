@@ -13,6 +13,7 @@ Overall, this project provides a basic implementation of a blockchain and a simp
 # TL;DR
 Just try it out:
 ```
+    go build simpleMiner.go
     ./init_blockchain.sh
     ./addblock.sh ./content/1
     ./addblock.sh ./content/2
@@ -75,7 +76,6 @@ Creates a new "chain" file with an initial entry, "Genesis Block the unmoved mov
 To initialize of reset the blockchain from the distribution folder run:
 
 ```
-    go build simpleMiner.go
     ./init_blockchain.sh
 ```
 
