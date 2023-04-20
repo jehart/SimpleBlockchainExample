@@ -73,7 +73,9 @@ Deletes the "chain" file, which stores the hashes of the mined blocks.
 Creates a new "chain" file with an initial entry, "Genesis Block the unmoved mover", representing the genesis block or the first block of the blockchain.
 
 To initialize of reset the blockchain from the distribution folder run:
+
 ```
+    go build simpleMiner.go
     ./init_blockchain.sh
 ```
 
